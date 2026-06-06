@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"witspoor"
+	"github.com/witspoor/witspoor-go"
 )
 
 func TestAttempt_Recovered(t *testing.T) {
