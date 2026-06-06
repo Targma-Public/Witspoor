@@ -5,6 +5,9 @@ import "time"
 // OpSnapshot is the immutable, serializable form of a completed Op tree.
 // This is what emitters receive and what travels over the wire.
 type OpSnapshot struct {
+	Source     string            `json:"source"`
+	Service    string            `json:"service,omitempty"`
+	Tags       map[string]string `json:"tags,omitempty"`
 	Name       string            `json:"name"`
 	StartedAt  time.Time         `json:"started_at"`
 	EndedAt    time.Time         `json:"ended_at"`
@@ -43,11 +46,22 @@ type IncidentSnapshot struct {
 // Snapshot converts a completed Op tree into an OpSnapshot.
 func (o *Op) Snapshot() OpSnapshot {
 	snap := OpSnapshot{
+		Source:     source,
 		Name:       o.Name,
 		StartedAt:  o.StartedAt,
 		EndedAt:    o.EndedAt,
 		DurationMs: float64(o.Duration().Nanoseconds()) / 1e6,
 		Health:     o.Health.String(),
+	}
+
+	if o.client != nil {
+		snap.Service = o.client.service
+		if len(o.client.tags) > 0 {
+			snap.Tags = make(map[string]string, len(o.client.tags))
+			for k, v := range o.client.tags {
+				snap.Tags[k] = v
+			}
+		}
 	}
 
 	for _, f := range o.facts {
