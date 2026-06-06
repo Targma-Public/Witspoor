@@ -98,6 +98,9 @@ func (o *Op) inferHealth() HealthState {
 				return Recovered
 			}
 		}
+		if last.Health == Degraded {
+			return Degraded
+		}
 	}
 
 	childHealth := Healthy
