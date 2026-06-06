@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/witspoor/witspoor-go"
+	"github.com/Targma-Public/Witspoor"
 )
 
 func Example_receiptFlow() {
