@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"witspoor"
+	"github.com/witspoor/witspoor-go"
 )
 
 func Example_receiptFlow() {
